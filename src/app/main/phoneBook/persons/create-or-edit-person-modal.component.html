@@ -1,0 +1,82 @@
+﻿<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static' }"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #personForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="person.id">{{ l('EditPerson') }}</span>
+                        <span *ngIf="!person.id">{{ l('CreateNewPerson') }}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="Person_PersonName">{{ l('PersonName') }} *</label>
+                        <input
+                            type="text"
+                            #Person_PersonName="ngModel"
+                            id="Person_PersonName"
+                            class="form-control"
+                            [(ngModel)]="person.personName"
+                            name="PersonName"
+                            required
+                        />
+                        <validation-messages [formCtrl]="Person_PersonName"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Person_PersonEmail">{{ l('PersonEmail') }} *</label>
+                        <input
+                            type="text"
+                            #Person_PersonEmail="ngModel"
+                            id="Person_PersonEmail"
+                            class="form-control"
+                            [(ngModel)]="person.personEmail"
+                            name="PersonEmail"
+                            required
+                        />
+                        <validation-messages [formCtrl]="Person_PersonEmail"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Person_PersonAddress">{{ l('PersonAddress') }}</label>
+                        <input
+                            type="text"
+                            #Person_PersonAddress="ngModel"
+                            id="Person_PersonAddress"
+                            class="form-control"
+                            [(ngModel)]="person.personAddress"
+                            name="PersonAddress"
+                        />
+                        <validation-messages [formCtrl]="Person_PersonAddress"></validation-messages>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">
+                        {{ l('Cancel') }}
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary blue"
+                        [disabled]="!personForm.form.valid"
+                        [buttonBusy]="saving"
+                        [busyText]="l('SavingWithThreeDot')"
+                    >
+                        <i class="fa fa-save"></i> <span>{{ l('Save') }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
